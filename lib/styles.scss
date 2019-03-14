@@ -1,1 +1,30 @@
+body {
+  background-color: grey;
+  background-repeat: no-repeat;
+  background-size: 100%;
+}
 
+#grid-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas: "top-left top-right" "bottom bottom" "bottom bottom";
+}
+
+.top-left {
+  grid-area: top-left;
+}
+
+.top-right {
+  grid-area: top-right;
+}
+
+.bottom {
+  grid-area: bottom;
+}
+
+#hourly-forecast {
+  display: grid;
+  grid-template-rows: 1;
+  grid-template-columns: repeat(8, 1fr);
+}

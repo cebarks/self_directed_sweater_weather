@@ -5,12 +5,23 @@
   <title>Self Directed FD Starter</title>
 </head>
 <body>
-      <!--  the a tag below can link you to another HTML page  -->
-      <!--  if you click the button in the browser right now, you'll get an error because that is not a real file path -->
-      <a href="<file path"><button class="default-button">GO TO OTHER PAGE</button></a>
-    <script
-    src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'>
-  </script>
+  <div id="grid-container">
+    <div class="top-left"></div>
+    <div class="top-right"></div>
+    <div class="bottom">
+      <div id="hourly-forecast"></div>
+      <table class="future-forecast">
+        <tbody>
+          <tr class="forecast-day" id="forecast-day-0"></tr>
+          <tr class="forecast-day" id="forecast-day-1"></tr>
+          <tr class="forecast-day" id="forecast-day-2"></tr>
+          <tr class="forecast-day" id="forecast-day-3"></tr>
+          <tr class="forecast-day" id="forecast-day-4"></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
   <script src="main.bundle.js"></script>
 </body>
 </html>
