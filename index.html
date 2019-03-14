@@ -5,8 +5,21 @@
   <title>Self Directed FD Starter</title>
 </head>
 <body>
-  <div id="container">
-    <h1>Hello World!</h1>
+  <div id="grid-container">
+    <div class="top-left"></div>
+    <div class="top-right"></div>
+    <div class="bottom">
+      <div id="hourly-forecast"></div>
+      <table class="future-forecast">
+        <tbody>
+          <tr class="forecast-day" id="forecast-day-0"></tr>
+          <tr class="forecast-day" id="forecast-day-1"></tr>
+          <tr class="forecast-day" id="forecast-day-2"></tr>
+          <tr class="forecast-day" id="forecast-day-3"></tr>
+          <tr class="forecast-day" id="forecast-day-4"></tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <script src='https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
   <script src="main.bundle.js"></script>

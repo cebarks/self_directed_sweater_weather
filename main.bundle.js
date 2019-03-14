@@ -56,7 +56,7 @@
 
 	function changeBackground(url) {
 	  console.log('setting bg image: ' + url);
-	  $('#container').css('background-image', 'url(' + url + ')');
+	  $('#grid-container').css('background-image', 'url(' + url + ')');
 	}
 
 /***/ }),
@@ -94,7 +94,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  background-color: yellow; }\n\n#container {\n  width: 400px;\n  height: 400px;\n  background-color: blue; }\n", ""]);
+	exports.push([module.id, "body {\n  background-color: yellow; }\n\n#grid-container {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  grid-template-rows: 1fr 1fr 1fr;\n  grid-template-areas: \"top-left top-right\" \"bottom bottom\" \"bottom bottom\"; }\n\n.top-left {\n  grid-area: top-left; }\n\n.top-right {\n  grid-area: top-right; }\n\n.bottom {\n  grid-area: bottom; }\n", ""]);
 
 	// exports
 
