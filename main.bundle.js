@@ -49,6 +49,10 @@
 	__webpack_require__(1);
 
 	$('#location-submit').click(changeLocation);
+	$('#register-button').click(registerButton);
+	$('#login-button').click(loginButton);
+
+	var current_user = '';
 
 	reloadForecast();
 
@@ -58,11 +62,17 @@
 	  var urlParams = new URLSearchParams(window.location.search);
 	  var location = urlParams.get('location');
 
+	  if (location === null) {
+	    location = 'denver,co';
+	    window.location = '/?location=' + location;
+	  }
+
 	  fetch('https://as-sweater-weather.herokuapp.com/api/v1/forecast?location=' + location).then(function (res) {
 	    return res.json();
 	  }).then(function (obj) {
 	    return forecast(obj);
 	  });
+	  // .catch(error => console.error('API Call failed: ' + error))
 	}
 
 	function changeBackground(url) {
@@ -163,7 +173,7 @@
 
 
 	// module
-	exports.push([module.id, "p {\n  margin: 0; }\n\nbody {\n  background-color: grey;\n  background-repeat: no-repeat;\n  background-size: 100%; }\n\n#grid-container {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  grid-template-rows: 1fr 1fr 1fr;\n  grid-template-areas: \"top-left top-right\" \"bottom bottom\" \"bottom bottom\";\n  width: 950px;\n  margin: 0 auto; }\n\n.location-box {\n  text-align: center;\n  width: 200px;\n  margin: 0 auto;\n  padding: 5px;\n  border: 3px black solid;\n  background-color: grey; }\n\n.top-left {\n  grid-area: top-left;\n  padding: 10px;\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: 3fr; }\n\n.tl-right {\n  grid-column: 2;\n  margin: auto; }\n\n.tl-left {\n  grid-column: 1;\n  margin: auto; }\n\n.top-right {\n  grid-area: top-right;\n  padding: 10px; }\n\n.bottom {\n  grid-area: bottom;\n  padding: 10px; }\n\n#hourly-forecast {\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: repeat(8, 1fr);\n  height: 75px; }\n\n.bottom,\n.top-left,\n.top-right {\n  border: 3px black solid;\n  margin: 5px;\n  background-color: grey; }\n\n.city-state-location,\n.country-location,\n.time {\n  text-align: right; }\n\n.current-temp {\n  font-size: 35pt; }\n", ""]);
+	exports.push([module.id, "p {\n  margin: 0; }\n\nbody {\n  background-color: grey;\n  background-repeat: no-repeat;\n  background-size: 100%; }\n\n#grid-container {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-template-rows: repeat(4, 1fr);\n  grid-template-areas: \"top-left top-right\" \"bottom bottom\" \"bottom bottom\" \"favorites favorites\";\n  width: 950px;\n  margin: 0 auto; }\n\n.location-box {\n  text-align: center;\n  width: 200px;\n  margin: 0 auto;\n  padding: 5px;\n  border: 3px black solid;\n  background-color: grey; }\n\n.favorites {\n  grid-area: favorites; }\n\n.top-left {\n  grid-area: top-left;\n  padding: 10px;\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: 3fr; }\n\n.tl-right {\n  grid-column: 2;\n  margin: auto; }\n\n.tl-left {\n  grid-column: 1;\n  margin: auto; }\n\n.top-right {\n  grid-area: top-right;\n  padding: 10px; }\n\n.bottom {\n  grid-area: bottom;\n  padding: 10px; }\n\n#hourly-forecast {\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: repeat(8, 1fr);\n  height: 75px; }\n\n.login-register-box {\n  text-align: right; }\n\n.bottom,\n.favorites,\n.top-left,\n.top-right {\n  border: 3px black solid;\n  margin: 5px;\n  background-color: grey; }\n\n.city-state-location,\n.country-location,\n.time {\n  text-align: right; }\n\n.current-temp {\n  font-size: 35pt; }\n", ""]);
 
 	// exports
 
