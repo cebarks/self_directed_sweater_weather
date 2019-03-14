@@ -48,15 +48,84 @@
 
 	__webpack_require__(1);
 
-	fetch('https://as-sweater-weather.herokuapp.com/api/v1/backgrounds?location=denver,co').then(function (res) {
-	  return res.json();
-	}).then(function (obj) {
-	  return changeBackground(obj.data.url);
-	});
+	$('#location-submit').click(changeLocation);
+
+	reloadForecast();
+
+	function reloadForecast() {
+	  $('.tl-right').empty();
+	  $('.tl-left').empty();
+	  var urlParams = new URLSearchParams(window.location.search);
+	  var location = urlParams.get('location');
+
+	  fetch('https://as-sweater-weather.herokuapp.com/api/v1/forecast?location=' + location).then(function (res) {
+	    return res.json();
+	  }).then(function (obj) {
+	    return forecast(obj);
+	  });
+	}
 
 	function changeBackground(url) {
 	  console.log('setting bg image: ' + url);
-	  $('#grid-container').css('background-image', 'url(' + url + ')');
+	  $('body').css('background-image', 'url(' + url + ')');
+	}
+
+	function setupBackground(obj) {
+	  fetch(obj.data.info.background_href).then(function (res) {
+	    return res.json();
+	  }).then(function (jsonObject) {
+	    return changeBackground(jsonObject.data.url);
+	  });
+	}
+
+	function setupToday(obj) {
+	  var city = obj.data.info.city;
+	  var state = obj.data.info.state;
+	  var country = obj.data.info.country;
+	  var today = obj.data.weather.today;
+
+	  $('.tl-right').append('<p class="city-state-location">' + city + ', ' + state + '</p>');
+	  $('.tl-right').append('<p class="country-location">' + country + '</p>');
+	  $('.tl-right').append('<p class="time">' + formatDate() + '</p>');
+	  $('.tl-left').append('<p class="current-weather">' + today.weather_type + '</p>');
+	  $('.tl-left').append('<p class="current-temp">' + Math.ceil(today.current_temperature) + '&deg;</p>');
+	  $('.tl-left').append('<p class="high-low-temps"> <strong>High: </strong>' + Math.ceil(today.temperature_high) + '&deg; <strong>Low: </strong>' + Math.ceil(today.temperature_low) + '&deg;</p>');
+	}
+
+	function setupFuture(obj) {}
+
+	function forecast(obj) {
+	  setupToday(obj);
+	  setupFuture(obj);
+	  setupBackground(obj);
+	}
+
+	function changeLocation() {
+	  var newLocation = $('#location-input').val();
+	  window.history.pushState("newlocation", "Title", '?location=' + newLocation);
+	  reloadForecast();
+	}
+
+	function formatDate() {
+	  var d = new Date();
+	  var hours = d.getHours();
+	  var pm = false;
+
+	  if (hours > 12) {
+	    hours -= 12;
+	    pm = true;
+	  }
+
+	  var time = hours + ':' + d.getMinutes();
+
+	  if (pm) {
+	    time += ' PM';
+	  }
+
+	  var date = parseInt(d.getMonth()) + 1 + '/' + d.getDate();
+	  var datetime = time + ' – ' + date;
+
+	  return datetime;
 	}
 
 /***/ }),
@@ -94,7 +163,7 @@
 
 
 	// module
-	exports.push([module.id, "body {\n  background-color: yellow; }\n\n#grid-container {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  grid-template-rows: 1fr 1fr 1fr;\n  grid-template-areas: \"top-left top-right\" \"bottom bottom\" \"bottom bottom\"; }\n\n.top-left {\n  grid-area: top-left; }\n\n.top-right {\n  grid-area: top-right; }\n\n.bottom {\n  grid-area: bottom; }\n", ""]);
+	exports.push([module.id, "p {\n  margin: 0; }\n\nbody {\n  background-color: grey;\n  background-repeat: no-repeat;\n  background-size: 100%; }\n\n#grid-container {\n  display: grid;\n  grid-template-columns: 1fr 1fr;\n  grid-template-rows: 1fr 1fr 1fr;\n  grid-template-areas: \"top-left top-right\" \"bottom bottom\" \"bottom bottom\";\n  width: 950px;\n  margin: 0 auto; }\n\n.location-box {\n  text-align: center;\n  width: 200px;\n  margin: 0 auto;\n  padding: 5px;\n  border: 3px black solid;\n  background-color: grey; }\n\n.top-left {\n  grid-area: top-left;\n  padding: 10px;\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: 3fr; }\n\n.tl-right {\n  grid-column: 2;\n  margin: auto; }\n\n.tl-left {\n  grid-column: 1;\n  margin: auto; }\n\n.top-right {\n  grid-area: top-right;\n  padding: 10px; }\n\n.bottom {\n  grid-area: bottom;\n  padding: 10px; }\n\n#hourly-forecast {\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: repeat(8, 1fr);\n  height: 75px; }\n\n.bottom,\n.top-left,\n.top-right {\n  border: 3px black solid;\n  margin: 5px;\n  background-color: grey; }\n\n.city-state-location,\n.country-location,\n.time {\n  text-align: right; }\n\n.current-temp {\n  font-size: 35pt; }\n", ""]);
 
 	// exports
 
