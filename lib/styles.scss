@@ -56,6 +56,7 @@ body {
 .bottom {
   grid-area: bottom;
   padding: 10px;
+  position: relative;
 }
 
 #hourly-forecast {
@@ -64,6 +65,21 @@ body {
   grid-template-columns: repeat(8, 1fr);
   height: 75px;
 }
+
+.login-register-box {
+  text-align: right;
+}
+
+#hourly-forecast,
+.forecast-day {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-spacing: 10px;
+  border-collapse: separate;
+}
+
+.hourly-temperature {}
 
 .bottom,
 .favorites,
