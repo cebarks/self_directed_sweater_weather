@@ -88,6 +88,9 @@
 	function reloadForecast() {
 	  $('.tl-right').empty();
 	  $('.tl-left').empty();
+	  $('#hourly-forecast').empty();
+	  $('#future-forecast').empty();
+
 	  var urlParams = new URLSearchParams(window.location.search);
 	  var location = urlParams.get('location');
 
@@ -95,7 +98,7 @@
 	    location = 'denver,co';
 	    window.location = 'https://www.cebarks.net/self_directed_sweater_weather/?location=' + location;
 	  }
-
+	  debugger;
 	  fetch(API_URL + 'forecast?location=' + location).then(function (res) {
 	    return res.json();
 	  }).then(function (obj) {
@@ -115,6 +118,8 @@
 	    return res.json();
 	  }).then(function (jsonObject) {
 	    return changeBackground(jsonObject.data.url);
+	  }).catch(function (err) {
+	    return console.error('Error during background image fetch: ' + error);
 	  });
 	}
 
@@ -135,16 +140,15 @@
 	function setupFuture(obj) {
 	  var hourly = obj.data.weather.today.hourly;
 	  var future = obj.data.weather.future;
+
 	  for (var i = 0; i < 7; i++) {
 	    var html = ['<div class="hourly-temperature"><p>T + ' + (i + 1) + ' hr(s)</p>', '<p>' + Math.ceil(hourly[i]) + '&deg;</p></div>'].join('');
 	    $('#hourly-forecast').append(html);
 	  }
-	  for (var j = 1; j < 6; j++) {
-	    $('#forecast-day-' + j).append('<div class="future-data">' + future.data[j].day + '</div>');
-	    $('#forecast-day-' + j).append('<div class="future-data">' + future.data[j].weather_type + '</div>');
-	    $('#forecast-day-' + j).append('<div class="future-data">' + future.data[j].precipitation_chance * 100 + '%</div>');
-	    $('#forecast-day-' + j).append('<div class="future-data"><strong>High:</strong> ' + Math.ceil(future.data[j].temperature_low) + '&deg;</div>');
-	    $('#forecast-day-' + j).append('<div class="future-data"><strong>Low:</strong> ' + Math.ceil(future.data[j].temperature_high) + '&deg;</div>');
+
+	  for (var j = 0; j < 6; j++) {
+	    var html = ['<div class="forecast-day" id="forecast-day-' + j + '">', '<div class="future-data">' + future.data[j].day + '</div>', '<div class="future-data">' + future.data[j].weather_type + '</div>', '<div class="future-data">' + future.data[j].precipitation_chance * 100 + '%</div>', '<div class="future-data"><strong>High:</strong> ' + Math.ceil(future.data[j].temperature_low) + '&deg;</div>', '<div class="future-data"><strong>Low:</strong> ' + Math.ceil(future.data[j].temperature_high) + '&deg;</div>', '</div>'].join('');
+	    $('#future-forecast').append(html);
 	  }
 	}
 
