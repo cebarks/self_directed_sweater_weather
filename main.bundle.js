@@ -74,11 +74,11 @@
 	function addFavorite(fav) {
 	  var city = fav.name.split(',')[0];
 	  var state = fav.name.split(',')[1];
-	  $('.favorites').append('<div class="favorite"><a href="/?location=' + fav.name + '">' + (city.charAt(0).toUpperCase() + city.slice(1)) + ', ' + state.toUpperCase() + '</a></div>');
+	  $('.favorites-list').append('<li class="favorite"><a href="/?location=' + fav.name + '">' + (city.charAt(0).toUpperCase() + city.slice(1)) + ', ' + state.toUpperCase() + '</a></li>');
 	}
 
 	function getFavorite(id) {
-	  return fetch(API_URL + 'locations?location=' + id + '&api_key=' + current_user).then(function (res) {
+	  fetch(API_URL + 'locations?location=' + id + '&api_key=' + current_user).then(function (res) {
 	    return res.json();
 	  }).then(function (fav) {
 	    return addFavorite(fav.data.attributes);
@@ -217,7 +217,7 @@
 
 
 	// module
-	exports.push([module.id, "p {\n  margin: 0; }\n\nbody {\n  background-color: grey;\n  background-repeat: no-repeat;\n  background-size: 100%; }\n\n#grid-container {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-template-rows: repeat(4, 1fr);\n  grid-template-areas: \"top-left top-right\" \"bottom bottom\" \"bottom bottom\" \"favorites favorites\";\n  width: 950px;\n  margin: 0 auto; }\n\n.location-box {\n  text-align: center;\n  width: 200px;\n  margin: 0 auto;\n  padding: 5px;\n  border: 3px black solid;\n  background-color: grey; }\n\n.favorites {\n  grid-area: favorites; }\n\n.top-left {\n  grid-area: top-left;\n  padding: 10px;\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: 3fr; }\n\n.tl-right {\n  grid-column: 2;\n  margin: auto; }\n\n.tl-left {\n  grid-column: 1;\n  margin: auto; }\n\n.top-right {\n  grid-area: top-right;\n  padding: 10px; }\n\n.bottom {\n  grid-area: bottom;\n  padding: 10px;\n  position: relative; }\n\n#hourly-forecast {\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: repeat(8, 1fr);\n  height: 75px; }\n\n.login-register-box {\n  text-align: right; }\n\n#hourly-forecast,\n.forecast-day {\n  width: 100%;\n  display: flex;\n  justify-content: space-between;\n  border-spacing: 10px;\n  border-collapse: separate; }\n\n.bottom,\n.favorites,\n.top-left,\n.top-right {\n  border: 3px black solid;\n  margin: 5px;\n  background-color: grey; }\n\n.city-state-location,\n.country-location,\n.time {\n  text-align: right; }\n\n.current-temp {\n  font-size: 35pt; }\n", ""]);
+	exports.push([module.id, "p {\n  margin: 0; }\n\nbody {\n  background-color: grey;\n  background-repeat: no-repeat;\n  background-size: 100%; }\n\n#grid-container {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-template-rows: repeat(4, 1fr);\n  grid-template-areas: \"top-left top-right\" \"bottom bottom\" \"bottom bottom\" \"favorites favorites\";\n  width: 950px;\n  margin: 0 auto; }\n\n.location-box {\n  text-align: center;\n  width: 200px;\n  margin: 0 auto;\n  padding: 5px;\n  border: 3px black solid;\n  background-color: grey; }\n\n.favorites {\n  grid-area: favorites; }\n\n.top-left {\n  grid-area: top-left;\n  padding: 10px;\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: 3fr; }\n\n.tl-right {\n  grid-column: 2;\n  margin: auto; }\n\n.tl-left {\n  grid-column: 1;\n  margin: auto; }\n\n.top-right {\n  grid-area: top-right;\n  padding: 10px; }\n\n.bottom {\n  grid-area: bottom;\n  padding: 10px;\n  position: relative; }\n\n#hourly-forecast {\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: repeat(8, 1fr);\n  height: 75px; }\n\n.login-register-box {\n  text-align: right; }\n\n#hourly-forecast,\n.forecast-day {\n  width: 100%;\n  display: flex;\n  justify-content: space-between;\n  border-spacing: 10px;\n  border-collapse: separate; }\n\n.bottom,\n.favorites,\n.top-left,\n.top-right {\n  border: 3px black solid;\n  margin: 5px;\n  padding: 5px;\n  background-color: grey; }\n\n.city-state-location,\n.country-location,\n.time {\n  text-align: right; }\n\n.current-temp {\n  font-size: 35pt; }\n", ""]);
 
 	// exports
 
