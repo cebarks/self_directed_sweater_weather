@@ -48,13 +48,42 @@
 
 	__webpack_require__(1);
 
-	$('#location-submit').click(changeLocation);
-	$('#register-button').click(registerButton);
-	$('#login-button').click(loginButton);
+	var API_URL = 'https://as-sweater-weather.herokuapp.com/api/v1/';
 
-	var current_user = '';
+	$('#location-submit').click(changeLocation);
+
+	var current_user = '3bd8897bacc01b8c5883945384d93f4847f1e13b6333b3c35f45cf8c04895364';
 
 	reloadForecast();
+	getFavorites();
+
+	function getFavorites() {
+	  fetch(API_URL + '/favorites?api_key=' + current_user).then(function (res) {
+	    return res.json();
+	  }).then(function (obj) {
+	    return addFavorites(obj);
+	  });
+	}
+
+	function addFavorites(obj) {
+	  for (var i = 0; i < obj.data.length; i++) {
+	    getFavorite(obj.data[i].id);
+	  }
+	}
+
+	function addFavorite(fav) {
+	  var city = fav.name.split(',')[0];
+	  var state = fav.name.split(',')[1];
+	  $('.favorites').append('<div class="favorite"><a href="/?location=' + fav.name + '">' + (city.charAt(0).toUpperCase() + city.slice(1)) + ', ' + state.toUpperCase() + '</a></div>');
+	}
+
+	function getFavorite(id) {
+	  return fetch(API_URL + 'locations?location=' + id + '&api_key=' + current_user).then(function (res) {
+	    return res.json();
+	  }).then(function (fav) {
+	    return addFavorite(fav.data.attributes);
+	  });
+	}
 
 	function reloadForecast() {
 	  $('.tl-right').empty();
@@ -67,12 +96,13 @@
 	    window.location = '/?location=' + location;
 	  }
 
-	  fetch('https://as-sweater-weather.herokuapp.com/api/v1/forecast?location=' + location).then(function (res) {
+	  fetch(API_URL + 'forecast?location=' + location).then(function (res) {
 	    return res.json();
 	  }).then(function (obj) {
 	    return forecast(obj);
+	  }).catch(function (error) {
+	    return console.error('API Call failed: ' + error);
 	  });
-	  // .catch(error => console.error('API Call failed: ' + error))
 	}
 
 	function changeBackground(url) {
@@ -102,7 +132,21 @@
 	  $('.tl-left').append('<p class="high-low-temps"> <strong>High: </strong>' + Math.ceil(today.temperature_high) + '&deg; <strong>Low: </strong>' + Math.ceil(today.temperature_low) + '&deg;</p>');
 	}
 
-	function setupFuture(obj) {}
+	function setupFuture(obj) {
+	  var hourly = obj.data.weather.today.hourly;
+	  var future = obj.data.weather.future;
+	  for (var i = 0; i < 7; i++) {
+	    var html = ['<div class="hourly-temperature"><p>T + ' + (i + 1) + ' hr(s)</p>', '<p>' + Math.ceil(hourly[i]) + '&deg;</p></div>'].join('');
+	    $('#hourly-forecast').append(html);
+	  }
+	  for (var j = 1; j < 6; j++) {
+	    $('#forecast-day-' + j).append('<div class="future-data">' + future.data[j].day + '</div>');
+	    $('#forecast-day-' + j).append('<div class="future-data">' + future.data[j].weather_type + '</div>');
+	    $('#forecast-day-' + j).append('<div class="future-data">' + future.data[j].precipitation_chance * 100 + '%</div>');
+	    $('#forecast-day-' + j).append('<div class="future-data"><strong>High:</strong> ' + Math.ceil(future.data[j].temperature_low) + '&deg;</div>');
+	    $('#forecast-day-' + j).append('<div class="future-data"><strong>Low:</strong> ' + Math.ceil(future.data[j].temperature_high) + '&deg;</div>');
+	  }
+	}
 
 	function forecast(obj) {
 	  setupToday(obj);
@@ -173,7 +217,7 @@
 
 
 	// module
-	exports.push([module.id, "p {\n  margin: 0; }\n\nbody {\n  background-color: grey;\n  background-repeat: no-repeat;\n  background-size: 100%; }\n\n#grid-container {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-template-rows: repeat(4, 1fr);\n  grid-template-areas: \"top-left top-right\" \"bottom bottom\" \"bottom bottom\" \"favorites favorites\";\n  width: 950px;\n  margin: 0 auto; }\n\n.location-box {\n  text-align: center;\n  width: 200px;\n  margin: 0 auto;\n  padding: 5px;\n  border: 3px black solid;\n  background-color: grey; }\n\n.favorites {\n  grid-area: favorites; }\n\n.top-left {\n  grid-area: top-left;\n  padding: 10px;\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: 3fr; }\n\n.tl-right {\n  grid-column: 2;\n  margin: auto; }\n\n.tl-left {\n  grid-column: 1;\n  margin: auto; }\n\n.top-right {\n  grid-area: top-right;\n  padding: 10px; }\n\n.bottom {\n  grid-area: bottom;\n  padding: 10px; }\n\n#hourly-forecast {\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: repeat(8, 1fr);\n  height: 75px; }\n\n.login-register-box {\n  text-align: right; }\n\n.bottom,\n.favorites,\n.top-left,\n.top-right {\n  border: 3px black solid;\n  margin: 5px;\n  background-color: grey; }\n\n.city-state-location,\n.country-location,\n.time {\n  text-align: right; }\n\n.current-temp {\n  font-size: 35pt; }\n", ""]);
+	exports.push([module.id, "p {\n  margin: 0; }\n\nbody {\n  background-color: grey;\n  background-repeat: no-repeat;\n  background-size: 100%; }\n\n#grid-container {\n  display: grid;\n  grid-template-columns: repeat(2, 1fr);\n  grid-template-rows: repeat(4, 1fr);\n  grid-template-areas: \"top-left top-right\" \"bottom bottom\" \"bottom bottom\" \"favorites favorites\";\n  width: 950px;\n  margin: 0 auto; }\n\n.location-box {\n  text-align: center;\n  width: 200px;\n  margin: 0 auto;\n  padding: 5px;\n  border: 3px black solid;\n  background-color: grey; }\n\n.favorites {\n  grid-area: favorites; }\n\n.top-left {\n  grid-area: top-left;\n  padding: 10px;\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: 3fr; }\n\n.tl-right {\n  grid-column: 2;\n  margin: auto; }\n\n.tl-left {\n  grid-column: 1;\n  margin: auto; }\n\n.top-right {\n  grid-area: top-right;\n  padding: 10px; }\n\n.bottom {\n  grid-area: bottom;\n  padding: 10px;\n  position: relative; }\n\n#hourly-forecast {\n  display: grid;\n  grid-template-rows: 1fr;\n  grid-template-columns: repeat(8, 1fr);\n  height: 75px; }\n\n.login-register-box {\n  text-align: right; }\n\n#hourly-forecast,\n.forecast-day {\n  width: 100%;\n  display: flex;\n  justify-content: space-between;\n  border-spacing: 10px;\n  border-collapse: separate; }\n\n.bottom,\n.favorites,\n.top-left,\n.top-right {\n  border: 3px black solid;\n  margin: 5px;\n  background-color: grey; }\n\n.city-state-location,\n.country-location,\n.time {\n  text-align: right; }\n\n.current-temp {\n  font-size: 35pt; }\n", ""]);
 
 	// exports
 

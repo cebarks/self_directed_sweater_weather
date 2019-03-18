@@ -10,9 +10,9 @@ body {
 
 #grid-container {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-areas: "top-left top-right" "bottom bottom" "bottom bottom";
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-template-areas: "top-left top-right" "bottom bottom" "bottom bottom" "favorites favorites";
   width: 950px;
   margin: 0 auto;
 }
@@ -24,6 +24,10 @@ body {
   padding: 5px;
   border: 3px black solid;
   background-color: grey;
+}
+
+.favorites {
+  grid-area: favorites;
 }
 
 .top-left {
@@ -62,6 +66,7 @@ body {
 }
 
 .bottom,
+.favorites,
 .top-left,
 .top-right {
   border: 3px black solid;
