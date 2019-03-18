@@ -8,6 +8,20 @@ body {
   background-size: 100%;
 }
 
+#login-box,
+#register-box {
+  position: static;
+  z-index: 100;
+  // left: 40%;
+  // top: 10%;
+  background-color: grey;
+  margin: auto;
+  width: 300px;
+  height: 100px;
+  text-align: center;
+  border: 3px black solid;
+}
+
 #grid-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -61,6 +75,9 @@ body {
   height: 75px;
 }
 
+.login-register-box {
+  text-align: right;
+}
 .bottom,
 .top-left,
 .top-right {
