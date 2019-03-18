@@ -74,7 +74,7 @@
 	function addFavorite(fav) {
 	  var city = fav.name.split(',')[0];
 	  var state = fav.name.split(',')[1];
-	  $('.favorites-list').append('<li class="favorite"><a href="/?location=' + fav.name + '">' + (city.charAt(0).toUpperCase() + city.slice(1)) + ', ' + state.toUpperCase() + '</a></li>');
+	  $('.favorites-list').append('<li class="favorite"><a href="/self_directed_sweater_weather/?location=' + fav.name + '">' + (city.charAt(0).toUpperCase() + city.slice(1)) + ', ' + state.toUpperCase() + '</a></li>');
 	}
 
 	function getFavorite(id) {
