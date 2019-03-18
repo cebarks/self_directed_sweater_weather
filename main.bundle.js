@@ -93,7 +93,7 @@
 
 	  if (location === null) {
 	    location = 'denver,co';
-	    window.location = '/self_directed_sweater_weather/?location=' + location;
+	    window.location = 'https://www.cebarks.net/self_directed_sweater_weather/?location=' + location;
 	  }
 
 	  fetch(API_URL + 'forecast?location=' + location).then(function (res) {
