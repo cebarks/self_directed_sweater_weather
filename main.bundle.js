@@ -98,7 +98,7 @@
 	    location = 'denver,co';
 	    window.location = 'https://www.cebarks.net/self_directed_sweater_weather/?location=' + location;
 	  }
-	  debugger;
+
 	  fetch(API_URL + 'forecast?location=' + location).then(function (res) {
 	    return res.json();
 	  }).then(function (obj) {
